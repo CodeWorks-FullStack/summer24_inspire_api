@@ -23,7 +23,8 @@ class TodosService {
   async updateTodo(todoId, userId, todoUpdateData) {
     const originalTodo = await this.getTodoById(todoId)
 
-    if (userId != originalTodo.creatorId) throw new Forbidden(`YOU CAN NOT UPDATE A TODO YOU DID NOT CREATE, BUD`)
+    if (userId != originalTodo.creatorId)
+      throw new Forbidden(`YOU CAN NOT UPDATE A TODO YOU DID NOT CREATE, BUD`)
 
     originalTodo.description = todoUpdateData.description || originalTodo.description
     // ?? nullish coalescing operator, checks if the left-hand side is null or undefined, and defaults to left if that is so
@@ -36,7 +37,8 @@ class TodosService {
     const todoToDestroy = await this.getTodoById(todoId)
 
     // NOTE check to see if the user making the request created the piece of data
-    if (userId != todoToDestroy.creatorId) throw new Forbidden("YOU CAN NOT DELETE A TODO THAT YOU DID NOT CREATE, PAL")
+    if (userId != todoToDestroy.creatorId)
+      throw new Forbidden("YOU CAN NOT DELETE A TODO THAT YOU DID NOT CREATE, PAL")
 
     // REVIEW do this AFTER passing the check above
     await todoToDestroy.deleteOne()

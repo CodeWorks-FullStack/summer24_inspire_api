@@ -4,12 +4,12 @@ class ImagesService {
   async getRandomImage() {
     const imagesCount = await dbContext.Images.countDocuments()
     const randomSkip = Math.floor(Math.random() * imagesCount)
-    const randomImage = await dbContext.Images.findOne().skip(randomSkip).populate('author', 'name picture')
+    const randomImage = await dbContext.Images.findOne().skip(randomSkip).populate('author')
     return randomImage
   }
   async createImage(imageData) {
     const image = await dbContext.Images.create(imageData)
-    await image.populate('author', 'name picture')
+    await image.populate('author')
     return image
   }
 }

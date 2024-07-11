@@ -15,5 +15,9 @@ ImageSchema.virtual('author', {
   localField: 'authorId',
   ref: 'Account',
   foreignField: '_id',
-  justOne: true
+  justOne: true,
+  // NOTE will only select the name and picture when virtual is populated
+  options: {
+    select: 'name picture'
+  }
 })

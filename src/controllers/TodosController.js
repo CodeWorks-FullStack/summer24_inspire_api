@@ -1,6 +1,7 @@
 import { Auth0Provider } from "@bcwdev/auth0provider";
 import BaseController from "../utils/BaseController.js";
 import { todosService } from "../services/TodosService.js";
+import req from "express/lib/request.js";
 
 export class TodosController extends BaseController {
   constructor() {
@@ -12,6 +13,7 @@ export class TodosController extends BaseController {
       .get('', this.getMyTodos)
       .get('/:todoId', this.getTodoById)
       .put('/:todoId', this.updateTodo)
+      .delete('/:todoId', this.destroyTodo)
   }
   async createTodo(request, response, next) {
     try {
@@ -51,6 +53,16 @@ export class TodosController extends BaseController {
       const todoUpdateData = request.body
       const todo = await todosService.updateTodo(todoId, todoUpdateData)
       response.send(todo)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async destroyTodo(request, response, next) {
+    try {
+      const todoId = request.params.todoId
+      const message = await todosService.destroyTodo(todoId)
+      response.send(message)
     } catch (error) {
       next(error)
     }

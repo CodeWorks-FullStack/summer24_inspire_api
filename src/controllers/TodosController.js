@@ -10,6 +10,7 @@ export class TodosController extends BaseController {
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createTodo)
       .get('', this.getMyTodos)
+      .get('/:todoId', this.getTodoById)
   }
   async createTodo(request, response, next) {
     try {
@@ -28,6 +29,16 @@ export class TodosController extends BaseController {
       const user = request.userInfo
       const todos = await todosService.getMyTodos(user.id)
       response.send(todos)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getTodoById(request, response, next) {
+    try {
+      const todoId = request.params.todoId
+      const todo = await todosService.getTodoById(todoId)
+      response.send(todo)
     } catch (error) {
       next(error)
     }

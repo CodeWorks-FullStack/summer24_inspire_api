@@ -20,11 +20,15 @@ class TodosService {
     return todo
   }
 
-  async updateTodo(todoId, todoUpdateData) {
+  async updateTodo(todoId, userId, todoUpdateData) {
     const originalTodo = await this.getTodoById(todoId)
+
+    if (userId != originalTodo.creatorId) throw new Forbidden(`YOU CAN NOT UPDATE A TODO YOU DID NOT CREATE, BUD`)
+
     originalTodo.description = todoUpdateData.description || originalTodo.description
     // ?? nullish coalescing operator, checks if the left-hand side is null or undefined, and defaults to left if that is so
     originalTodo.completed = todoUpdateData.completed ?? originalTodo.completed
+
     await originalTodo.save()
     return originalTodo
   }

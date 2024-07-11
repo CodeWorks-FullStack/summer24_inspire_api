@@ -51,7 +51,8 @@ export class TodosController extends BaseController {
     try {
       const todoId = request.params.todoId
       const todoUpdateData = request.body
-      const todo = await todosService.updateTodo(todoId, todoUpdateData)
+      const user = request.userInfo
+      const todo = await todosService.updateTodo(todoId, user.id, todoUpdateData)
       response.send(todo)
     } catch (error) {
       next(error)

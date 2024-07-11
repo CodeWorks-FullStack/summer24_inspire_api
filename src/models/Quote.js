@@ -10,3 +10,11 @@ export const QuoteSchema = new Schema(
     toJSON: { virtuals: true }
   }
 )
+
+
+QuoteSchema.virtual('author', {
+  localField: 'authorId',
+  ref: 'Account',
+  foreignField: '_id',
+  justOne: true
+})

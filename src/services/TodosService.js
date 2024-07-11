@@ -21,7 +21,7 @@ class TodosService {
   }
 
   async updateTodo(todoId, todoUpdateData) {
-    const originalTodo = await dbContext.Todos.findById(todoId)
+    const originalTodo = await this.getTodoById(todoId)
     originalTodo.description = todoUpdateData.description || originalTodo.description
     // ?? nullish coalescing operator, checks if the left-hand side is null or undefined, and defaults to left if that is so
     originalTodo.completed = todoUpdateData.completed ?? originalTodo.completed
@@ -29,7 +29,7 @@ class TodosService {
     return originalTodo
   }
   async destroyTodo(todoId) {
-    const todoToDestroy = await dbContext.Todos.findById(todoId)
+    const todoToDestroy = await this.getTodoById(todoId)
     await todoToDestroy.deleteOne()
     return `${todoToDestroy.description} has been deleted, big dawg!`
   }

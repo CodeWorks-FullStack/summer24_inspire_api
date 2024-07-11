@@ -11,6 +11,7 @@ export class TodosController extends BaseController {
       .post('', this.createTodo)
       .get('', this.getMyTodos)
       .get('/:todoId', this.getTodoById)
+      .put('/:todoId', this.updateTodo)
   }
   async createTodo(request, response, next) {
     try {
@@ -38,6 +39,17 @@ export class TodosController extends BaseController {
     try {
       const todoId = request.params.todoId
       const todo = await todosService.getTodoById(todoId)
+      response.send(todo)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async updateTodo(request, response, next) {
+    try {
+      const todoId = request.params.todoId
+      const todoUpdateData = request.body
+      const todo = await todosService.updateTodo(todoId, todoUpdateData)
       response.send(todo)
     } catch (error) {
       next(error)

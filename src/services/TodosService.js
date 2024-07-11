@@ -1,6 +1,13 @@
 import { dbContext } from "../db/DbContext.js"
 
 class TodosService {
+  async updateTodo(todoId, todoUpdateData) {
+    const originalTodo = await dbContext.Todos.findById(todoId)
+    originalTodo.description = todoUpdateData.description || originalTodo.description
+    originalTodo.completed = todoUpdateData.completed == undefined ? originalTodo.completed : todoUpdateData.completed
+    await originalTodo.save()
+    return originalTodo
+  }
   async createTodo(todoData) {
     const todo = await dbContext.Todos.create(todoData)
     return todo

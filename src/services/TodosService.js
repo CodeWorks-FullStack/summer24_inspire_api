@@ -4,7 +4,8 @@ class TodosService {
   async updateTodo(todoId, todoUpdateData) {
     const originalTodo = await dbContext.Todos.findById(todoId)
     originalTodo.description = todoUpdateData.description || originalTodo.description
-    originalTodo.completed = todoUpdateData.completed == undefined ? originalTodo.completed : todoUpdateData.completed
+    // ?? nullish coalescing operator, checks if the left-hand side is null or undefined, and defaults to left if that is so
+    originalTodo.completed = todoUpdateData.completed ?? originalTodo.completed
     await originalTodo.save()
     return originalTodo
   }

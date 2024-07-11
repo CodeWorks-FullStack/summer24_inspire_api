@@ -9,7 +9,7 @@ class TodosService {
   }
 
   async getMyTodos(userId) {
-    // --------------------------------------{ userId: '65f87bc1e02f1ee243874743' }
+    // --------------------------------------{ creatorId: '65f87bc1e02f1ee243874743' }
     const todos = await dbContext.Todos.find({ creatorId: userId })
     return todos
   }

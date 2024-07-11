@@ -61,7 +61,8 @@ export class TodosController extends BaseController {
   async destroyTodo(request, response, next) {
     try {
       const todoId = request.params.todoId
-      const message = await todosService.destroyTodo(todoId)
+      const user = request.userInfo
+      const message = await todosService.destroyTodo(todoId, user.id)
       response.send(message)
     } catch (error) {
       next(error)

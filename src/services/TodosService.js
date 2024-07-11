@@ -1,5 +1,5 @@
 import { dbContext } from "../db/DbContext.js"
-import { BadRequest } from "../utils/Errors.js"
+import { BadRequest, Forbidden } from "../utils/Errors.js"
 
 class TodosService {
 
@@ -28,8 +28,13 @@ class TodosService {
     await originalTodo.save()
     return originalTodo
   }
-  async destroyTodo(todoId) {
+  async destroyTodo(todoId, userId) {
     const todoToDestroy = await this.getTodoById(todoId)
+
+    // NOTE check to see if the user making the request created the piece of data
+    if (userId != todoToDestroy.creatorId) throw new Forbidden("YOU CAN NOT DELETE A TODO THAT YOU DID NOT CREATE, PAL")
+
+    // REVIEW do this AFTER passing the check above
     await todoToDestroy.deleteOne()
     return `${todoToDestroy.description} has been deleted, big dawg!`
   }
